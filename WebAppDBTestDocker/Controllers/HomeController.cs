@@ -12,12 +12,14 @@ namespace WebAppDBTestDocker.Controllers
 
         public IActionResult Index() => View(repository.Users);
 
+        [NonAction]
         private int GetRandomNumber(int max = 100)
         {
             var rand = new Random();
             return rand.Next((max == 100) ? 10 : 100, max);
         }
 
+        [NonAction]
         private User GetNewUser()
         {
             User user = new Models.User

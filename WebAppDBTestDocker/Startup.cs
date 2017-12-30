@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using WebAppDBTestDocker.Models;
 
 namespace WebAppDBTestDocker
@@ -22,8 +23,10 @@ namespace WebAppDBTestDocker
             services.AddMvc();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddConsole();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
