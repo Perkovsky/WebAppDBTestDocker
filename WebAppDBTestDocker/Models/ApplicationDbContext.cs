@@ -8,6 +8,7 @@ namespace WebAppDBTestDocker.Models
     public class ApplicationDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<MyGuid> Guids { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }

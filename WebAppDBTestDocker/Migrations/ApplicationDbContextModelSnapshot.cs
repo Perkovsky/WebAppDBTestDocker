@@ -20,6 +20,18 @@ namespace WebAppDBTestDocker.Migrations
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("WebAppDBTestDocker.Models.MyGuid", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Guid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Guids");
+                });
+
             modelBuilder.Entity("WebAppDBTestDocker.Models.User", b =>
                 {
                     b.Property<int>("Id")

@@ -11,7 +11,7 @@ using WebAppDBTestDocker.Models;
 namespace WebAppDBTestDocker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171228100310_Initial")]
+    [Migration("20171230204941_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,18 @@ namespace WebAppDBTestDocker.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("WebAppDBTestDocker.Models.MyGuid", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Guid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Guids");
+                });
 
             modelBuilder.Entity("WebAppDBTestDocker.Models.User", b =>
                 {

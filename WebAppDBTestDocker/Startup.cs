@@ -19,8 +19,10 @@ namespace WebAppDBTestDocker
             services.AddDbContext<ApplicationDbContext>(options =>
                options.UseSqlServer(Configuration["Data:TestDockerUsers:ConnectionString"]));
 
-            services.AddTransient<IUserRepository, EFUserRepository>();
             services.AddMvc();
+
+            services.AddTransient<IUserRepository, EFUserRepository>();
+            services.AddTransient<IGuidRepository, EFGuidRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -40,7 +42,7 @@ namespace WebAppDBTestDocker
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            SeedData.EnsurePopulated(app.ApplicationServices);
+            //SeedData.EnsurePopulated(app.ApplicationServices);
         }
     }
 }

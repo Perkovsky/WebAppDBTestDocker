@@ -1,4 +1,4 @@
-﻿@model IEnumerable<User>
+﻿@model ViewModel
 
 @{
     Layout = null;
@@ -24,7 +24,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.Users)
             {
                 <tr>
                     <td>@item.Id</td>
@@ -38,6 +38,29 @@
     <br />
     <form asp-controller="Home" asp-action="AddRandomUser" method="post">
         <button type="submit">Add random user</button>
+    </form>
+    <br />
+    <h3>All Guids</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Guid</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Guids)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Guid</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <form asp-controller="Home" asp-action="AddGuid" method="post">
+        <button type="submit">Add GUID</button>
     </form>
 </body>
 </html>

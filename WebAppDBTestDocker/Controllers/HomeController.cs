@@ -6,11 +6,16 @@ namespace WebAppDBTestDocker.Controllers
 {
     public class HomeController : Controller
     {
-        private IUserRepository repository;
+        private IUserRepository userRepository;
+        private IGuidRepository guidRepository;
 
-        public HomeController(IUserRepository repository) => this.repository = repository;
+        public HomeController(IUserRepository userRepository, IGuidRepository guidRepository)
+        {
+            this.userRepository = userRepository;
+            this.guidRepository = guidRepository;
+        }
 
-        public IActionResult Index() => View(repository.Users);
+        public IActionResult Index() => View(new ViewModel(userRepository.Users, guidRepository.Guids));
 
         [NonAction]
         private int GetRandomNumber(int max = 100)
@@ -34,7 +39,14 @@ namespace WebAppDBTestDocker.Controllers
         [HttpPost]
         public RedirectToActionResult AddRandomUser()
         {
-            repository.SaveUser(GetNewUser());
+            userRepository.SaveUser(GetNewUser());
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public RedirectToActionResult AddGuid()
+        {
+            guidRepository.SaveGuid(new MyGuid { Guid = Guid.NewGuid().ToString() });
             return RedirectToAction(nameof(Index));
         }
     }
