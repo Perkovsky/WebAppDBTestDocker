@@ -1,6 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
-using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebAppDBTestDocker.Models
 {
@@ -9,6 +10,7 @@ namespace WebAppDBTestDocker.Models
         public static void EnsurePopulated(IServiceProvider services)
         {
             ApplicationDbContext context = services.GetRequiredService<ApplicationDbContext>();
+            context.Database.Migrate();
 
             if (!context.Users.Any())
             {

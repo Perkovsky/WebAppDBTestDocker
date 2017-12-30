@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  webappdbtestdocker:
+    image: webappdbtestdocker
+    build:
+      context: .
+      dockerfile: WebAppDBTestDocker/Dockerfile
+    depends_on:
+      - db
+  
+  db:
+    image: microsoft/mssql-server-linux

@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  webappdbtestdocker:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+  
+  db:
+    environment:
+      - MSSQL_SA_PASSWORD=Pass!2017
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Developer
+    ports:
+      - "5433:1433"
