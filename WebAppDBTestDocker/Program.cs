@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace WebAppDBTestDocker
 {
@@ -10,10 +11,18 @@ namespace WebAppDBTestDocker
             BuildWebHost(args).Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseDefaultServiceProvider(o => o.ValidateScopes = false)
+        public static IWebHost BuildWebHost(string[] args)
+        {
+            var config = new ConfigurationBuilder()
+                .AddCommandLine(args)
+                .AddEnvironmentVariables()
                 .Build();
+
+            return WebHost.CreateDefaultBuilder(args)
+                    .UseConfiguration(config)
+                    .UseStartup<Startup>()
+                    .UseDefaultServiceProvider(o => o.ValidateScopes = false)
+                    .Build();
+        }
     }
 }

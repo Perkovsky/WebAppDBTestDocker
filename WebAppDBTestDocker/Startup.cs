@@ -10,17 +10,35 @@ namespace WebAppDBTestDocker
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        //NOTE: использую Configuration типа IConfigurationRoot вместо IConfiguration
+        // это нужно ТОЛЬКО для того, чтобы вывести ID контейнера (береться из config["HOSTNAME"]) 
+        // ID контейнера выводится для визуального тестирования балансировщика нагрузки, чтобы видеть  
+        // что при каждом обновлении страницы выводятся разные ID.
+        //
+        // Изменения, которые сделаны для этого, не нужно переновить в продакшн в таких файлах:
+        // - Program.cs
+        // - Startup.cs
+        // - HomeController.cs
 
-        public Startup(IConfiguration configuration) => Configuration = configuration;
+        private IConfigurationRoot Configuration { get; }
+
+        public Startup(IHostingEnvironment env)
+        {
+            Configuration = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddEnvironmentVariables()
+                .Build();
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var connection = @"Server=db;Database=master;User Id=sa;Password=Pass!2017;";
             services.AddDbContext<ApplicationDbContext>(options =>
-               options.UseSqlServer(Configuration["Data:TestDockerUsers:ConnectionString"]));
+               options.UseSqlServer(connection));
 
             services.AddMvc();
 
+            services.AddSingleton(Configuration);
             services.AddTransient<IUserRepository, EFUserRepository>();
             services.AddTransient<IGuidRepository, EFGuidRepository>();
         }

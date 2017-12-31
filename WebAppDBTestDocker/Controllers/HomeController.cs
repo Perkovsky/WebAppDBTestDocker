@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using WebAppDBTestDocker.Models;
 
 namespace WebAppDBTestDocker.Controllers
@@ -8,14 +9,20 @@ namespace WebAppDBTestDocker.Controllers
     {
         private IUserRepository userRepository;
         private IGuidRepository guidRepository;
+        private string message;
 
-        public HomeController(IUserRepository userRepository, IGuidRepository guidRepository)
+        public HomeController(IUserRepository userRepository, IGuidRepository guidRepository, IConfiguration config)
         {
             this.userRepository = userRepository;
             this.guidRepository = guidRepository;
+            message = $"Hostname: {config["HOSTNAME"]}";
         }
 
-        public IActionResult Index() => View(new ViewModel(userRepository.Users, guidRepository.Guids));
+        public IActionResult Index()
+        {
+            ViewBag.Message = message;
+            return View(new ViewModel(userRepository.Users, guidRepository.Guids));
+        }
 
         [NonAction]
         private int GetRandomNumber(int max = 100)
